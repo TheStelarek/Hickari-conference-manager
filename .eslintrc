@@ -1,0 +1,19 @@
+{
+  "extends": ["react-app", "react-app/jest", "plugin:prettier/recommended", "prettier", "plugin:cypress/recommended"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "import/first": 0
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "parser": "babel-eslint"
+}
