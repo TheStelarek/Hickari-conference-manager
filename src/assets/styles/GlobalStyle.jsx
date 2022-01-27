@@ -12,6 +12,7 @@ export const GlobalStyle = createGlobalStyle`
     margin-top: 5vh;    
     background-color: black;
     width:100vw;
+    overflow-x:hidden;
   }
   
 `;

@@ -46,6 +46,17 @@ const Text = styled.div`
   }
 `;
 
+const SubTitle = styled.div`
+  color: white;
+  font-size: 20px;
+  word-break: break-word;
+  width: 90%;
+  @media (min-width: 1000px) {
+    font-size: 30px;
+    max-width: 800px;
+  }
+`;
+
 const TextWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -104,6 +115,8 @@ const Features = styled.div`
     flex-wrap: wrap;
     gap: 50px;
     margin-top: 50px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
 `;
 
@@ -111,11 +124,11 @@ const BoxContainer = styled.div`
   margin-top: 30px;
   border: 1px #4c79cd solid;
   border-radius: 12px;
-  width: 300px;
   height: 275px;
   background-color: black;
+  max-width: 700px;
 
-  @media (min-width: 1258px) {
+  @media (min-width: 1000px) {
     height: 300px;
     width: 400px;
   }
@@ -173,7 +186,12 @@ const FaqText = styled.div`
   font-size: 12px;
   margin-top: 40px;
   font-weight: 800;
+  padding-left: 20px;
+  padding-right: 20px;
   cursor: pointer;
+  @media (min-width: 1000px) {
+    font-size: 14px;
+  }
 `;
 
 const Home = () => {
@@ -186,7 +204,7 @@ const Home = () => {
           </Title>
         </TextContainer>
         <TextWrapper>
-          <Text>A system that offers you to set up your own conference, fast technical support and low prices!</Text>
+          <SubTitle>A system that offers you to set up your own conference, fast technical support and low prices!</SubTitle>
         </TextWrapper>
         <Button>Get Started</Button>
       </UpContainer>
