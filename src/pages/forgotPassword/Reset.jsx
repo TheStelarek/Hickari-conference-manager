@@ -1,52 +1,77 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { sendPasswordResetEmail } from '../../api/firebase-user';
+import { Box } from 'components/Box';
+
 const Container = styled.div`
-  background-color: #ffc0cb;
+  background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 100vh;
+  height: 650px;
   width: 100vw;
+  background: black;
+  margin-top: 20px;
 `;
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
+const Button = styled.a`
+  background-color: #1f57c1;
+  color: white !important;
+  transition: all 0.4s ease-in-out;
   justify-content: center;
-  gap: 15px;
-  border: 3px green solid;
-  flex-direction: column;
-`;
-
-const Guzik = styled.button`
-  margin-top: 3%;
-  margin-bottom: 30px;
-  background-color: #ffc0cb;
-  width: 200px;
-  height: 40px;
-  border: green 2px solid;
-  color: green;
-  font-size: 20px;
-`;
-
-const PierwszePole = styled.input`
-  background-color: #ffc0cb;
-  width: 200px;
-  height: 40px;
-  margin-top: -30px;
-  border-color: gray;
-`;
-
-const Tytul = styled.div`
   display: flex;
+  cursor: pointer;
+  width: 100%;
   align-items: center;
-  justify-content: center;
-  width: 400px;
-  font-size: 40px;
-  transform: translateY(-100px);
-  color: green;
+  height: 30px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  &:hover {
+    background: #fff;
+    color: #1f57c1 !important;
+  }
+`;
+
+const FirstInput = styled.input`
+  -webkit-appearance: none;
+  margin-top: 30px;
+  box-sizing: border-box;
+  padding-left: 10px;
+  font-size: 14px;
+  border: 1px solid #1f57c1;
+  color: white;
+  background: none;
+  height: 50px;
+  width: 80%;
+  margin: 0;
+  transition: 0.3s;
+  box-shadow: inset 0 0 0 none;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  ::placeholder {
+    color: #bebebe;
+  }
+`;
+const Title = styled.h1`
+  color: white;
+  padding-top: 25px;
+  @media (min-width: 1000px) {
+    padding-top: 40px;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 80%;
+  height: auto;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
 `;
 
 const Reset = () => {
@@ -54,13 +79,15 @@ const Reset = () => {
 
   return (
     <Container>
-      <Wrapper>
-        <Tytul> RECOVERY PASSWORD </Tytul>
-        <PierwszePole type="text" className="login__textBox" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="E-mail Address" />
-        <Guzik className="login__btn" onClick={() => sendPasswordResetEmail(email)}>
-          reset
-        </Guzik>
-      </Wrapper>
+      <Box>
+        <Title> Reset Password </Title>
+        <FirstInput type="text" className="login__textBox" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your e-mail" />
+        <ButtonContainer>
+          <Button className="login__btn" onClick={() => sendPasswordResetEmail(email)}>
+            Reset
+          </Button>
+        </ButtonContainer>
+      </Box>
     </Container>
   );
 };

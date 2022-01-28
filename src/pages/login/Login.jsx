@@ -21,13 +21,14 @@ const ButtonContainer = styled.div`
   width: 80%;
   height: auto;
   margin-top: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   flex-wrap: wrap;
 `;
 
 const Move = styled.a`
-  color: #1f57c1;
+  color: #4c79cd;
   text-decoration: none !important;
+  font-size: 13px;
 `;
 
 const Button = styled.a`
@@ -105,11 +106,11 @@ const Container = styled.div`
 const Text = styled.div`
   display: flex;
   color: white;
-  font-size: 12px;
+  font-size: 13px;
   padding-bottom: 25px;
   @media (min-width: 1000px) {
     padding-bottom: 40px;
-    padding-top: 25px;
+    padding-top: 10px;
   }
 `;
 
@@ -132,14 +133,14 @@ export default function Signin() {
     <Container>
       <Box>
         <Title>Sign in</Title>
-        <FirstInput type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="E-mail Address" />
-        <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+        <FirstInput type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your e-mail" />
+        <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" />
         <ButtonContainer>
           <Button className="login__btn" onClick={() => signInWithEmailAndPassword(email, password)}>
             Login
           </Button>
         </ButtonContainer>
-        <Move to="/reset">Forgot Password</Move>
+        <Move href="/reset">Forgot Password</Move>
 
         <Text>
           Don't have an account?
