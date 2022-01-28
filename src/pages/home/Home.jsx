@@ -90,6 +90,7 @@ const UpContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 60%;
+  margin-top: 50px;
 `;
 
 const FeaturesContainer = styled.div`
@@ -100,7 +101,7 @@ const FeaturesContainer = styled.div`
   padding-right: 30px;
   margin-bottom: 40px;
   @media (min-width: 1000px) {
-    margin-top: 50px;
+    margin-top: 20px;
   }
 `;
 
@@ -114,7 +115,7 @@ const Features = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     gap: 50px;
-    margin-top: 50px;
+    margin-top: 30px;
     padding-left: 40px;
     padding-right: 40px;
   }

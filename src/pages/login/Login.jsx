@@ -1,37 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { auth, signInWithEmailAndPassword } from '../../api/firebase-user';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
+import { Box } from 'components/Box';
 
-const Container = styled.div`
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 95vh;
-  width: 100vw;
-  background: linear-gradient(135deg, LightSeaGreen, DarkOrchid, LightSeaGreen);
-`;
-
-const Tytul = styled.h1`
-  transform: translateY(-50px);
-`;
-
-const Box = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30%;
-  height: 89%;
-  gap: 15px;
-  border: 1px lightgray solid;
-  background-color: lightgray;
-  border-radius: 12px;
-  flex-direction: column;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+const Title = styled.h1`
+  color: white;
+  padding-top: 25px;
+  @media (min-width: 1000px) {
+    padding-top: 40px;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -39,80 +18,99 @@ const ButtonContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-  width: 60%;
+  width: 80%;
   height: auto;
   margin-top: 30px;
   margin-bottom: 30px;
   flex-wrap: wrap;
 `;
 
-const gradient = keyframes`
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 600% 50%;
-  }
+const Move = styled.a`
+  color: #1f57c1;
+  text-decoration: none !important;
 `;
 
-const Guzik = styled.a`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const Button = styled.a`
+  background-color: #1f57c1;
+  color: white !important;
+  transition: all 0.4s ease-in-out;
   justify-content: center;
+  display: flex;
   cursor: pointer;
-  width: 200px;
-  height: 50px;
-  font-weight: 200;
-  font-size: 14pt;
-  background: linear-gradient(to right, Tomato, DarkOrange, Crimson, Tomato);
-  background-size: 600% 600%;
-  border: 1px solid transparent;
-  animation: ${gradient} 30s linear infinite;
-  color: white;
-  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
-    rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
-    rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  width: 100%;
+  align-items: center;
+  height: 30px;
+  padding-bottom: 10px;
+  padding-top: 10px;
   &:hover {
-    background: linear-gradient(to right, CornflowerBlue, Aqua, DeepPink, CornflowerBlue);
-    background-size: 600% 600%;
-    animation: ${gradient} 20s linear infinite;
-    filter: drop-shadow(0px 0px 30px CornflowerBlue);
-    font-weight: 400;
-    text-shadow: 0px 0px 3px CornflowerBlue;
+    background: #fff;
+    color: #1f57c1 !important;
   }
 `;
 
-const PierwszePole = styled.input`
-  background: transparent;
-  position: relative;
-  border: none;
-  border-bottom: solid 1px gray;
-  height: 30px;
+const FirstInput = styled.input`
+  -webkit-appearance: none;
+  margin-top: 30px;
+  box-sizing: border-box;
+  padding-left: 10px;
+  font-size: 14px;
+  border: 1px solid #1f57c1;
+  color: white;
+  background: none;
+  height: 50px;
   width: 80%;
-  z-index: 200;
-  padding: 10px;
-  margin-bottom: 50px;
-  font-size: 20px;
-  font-weight: lighter;
+  margin: 0;
+  transition: 0.3s;
+  box-shadow: inset 0 0 0 none;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  ::placeholder {
+    color: #bebebe;
+  }
 `;
 
 const Input = styled.input`
-  background: transparent;
-  position: relative;
-  border: none;
-  border-bottom: solid 1px gray;
-  height: 30px;
+  -webkit-appearance: none;
+  margin-top: 30px;
+  box-sizing: border-box;
+  padding-left: 10px;
+  font-size: 14px;
+  border: 1px solid #1f57c1;
+  color: white;
+  background: none;
+  height: 50px;
   width: 80%;
-  z-index: 200;
-  padding: 10px;
-  font-size: 20px;
-  margin-bottom: 50px;
-  font-weight: lighter;
+  margin: 0;
+  transition: 0.3s;
+  box-shadow: inset 0 0 0 none;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  ::placeholder {
+    color: #bebebe;
+  }
 `;
 
-const Tekst = styled.div`
+const Container = styled.div`
+  background-color: white;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 650px;
+  width: 100vw;
+  background: black;
+  margin-top: 20px;
+`;
+
+const Text = styled.div`
+  display: flex;
+  color: white;
+  font-size: 12px;
+  padding-bottom: 25px;
+  @media (min-width: 1000px) {
+    padding-bottom: 40px;
+    padding-top: 25px;
+  }
 `;
 
 export default function Signin() {
@@ -133,19 +131,21 @@ export default function Signin() {
   return (
     <Container>
       <Box>
-        <Tytul>LOGIN</Tytul>
-        <PierwszePole type="text" className="login__textBox" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="E-mail Address" />
-        <Input type="password" className="login__textBox" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+        <Title>Sign in</Title>
+        <FirstInput type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="E-mail Address" />
+        <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
         <ButtonContainer>
-          <Guzik className="login__btn" onClick={() => signInWithEmailAndPassword(email, password)}>
+          <Button className="login__btn" onClick={() => signInWithEmailAndPassword(email, password)}>
             Login
-          </Guzik>
+          </Button>
         </ButtonContainer>
-        <Link to="/reset">Forgot Password</Link>
+        <Move to="/reset">Forgot Password</Move>
 
-        <Tekst>
-          Don't have an account? <Link to="/signup">Register</Link> now.
-        </Tekst>
+        <Text>
+          Don't have an account?
+          <Move href="/register">&#xA0; Register &#xA0; </Move>
+          now.
+        </Text>
       </Box>
     </Container>
   );
