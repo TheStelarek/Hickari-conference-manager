@@ -27,8 +27,7 @@ export const Navbar = () => {
         {user && <MenuLink href="/profile">Profile</MenuLink>}
         {!user && <MenuLink href="/register">Register</MenuLink>}
         {!user && <MenuLink href="/login">Login</MenuLink>}
-        <MenuLink href="/about">About</MenuLink>
-        <MenuLink href="/contact">Contact</MenuLink>
+        <MenuLink href="/Faq">Faq</MenuLink>
         {user && (
           <DropDownLi>
             <Dropbtn>

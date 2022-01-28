@@ -136,7 +136,7 @@ function Signup() {
   return (
     <Container>
       <Box>
-        <Title>Register</Title>
+        <Title>Sing Up</Title>
         <FirstInput type="text" value={displayName} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" />
         <Input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your e-mail" />
         <Input
@@ -162,7 +162,7 @@ function Signup() {
         />
         <Input type="text" className="register__textBox" value={pesel} onChange={(e) => setPesel(e.target.value)} placeholder="Enter your pesel" />
         <ButtonContainer>
-          <Button onClick={register}>Zaloz konto</Button>
+          <Button onClick={register}>Register</Button>
         </ButtonContainer>
         <Text>
           Already have an account? <Move href="/login"> &#xA0; Login &#xA0; </Move> now.
