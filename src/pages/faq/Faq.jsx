@@ -8,6 +8,9 @@ const Container = styled.main`
   align-items: center;
   background-color: black;
   margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Section = styled.section`
@@ -21,11 +24,18 @@ const Section = styled.section`
   border-radius: 12px;
   width: 300px;
   margin-bottom: 20px;
+  @media (min-width: 1000px) {
+    width: 800px;
+  }
 `;
+
+const InnerSection = styled.div``;
 
 const AccordionContainer = styled.div`
   max-width: 500px;
 `;
+
+const AccordionInner = styled.div``;
 
 const AccordionItem = styled.div`
   border: 1px solid #1f57c1;
@@ -35,6 +45,7 @@ const AccordionItem = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: 20px;
   &:not(:last-child) {
     border-bottom: 1px solid black;
   }
@@ -44,6 +55,7 @@ const AccordionTitle = styled.h4`
   margin: 0;
   padding: 1rem;
   cursor: pointer;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,49 +93,45 @@ const Title = styled.h1`
 
 const sampleAccordionData = [
   {
-    title: 'Item 1',
+    title: 'Can I register online?',
     content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lacinia volutpat congue. Nam ac sagittis diam, ac mattis justo. Integer enim est, sollicitudin quis egestas ut, pharetra id diam. Vestibulum quis nulla felis. Nullam rutrum laoreet semper. In hac habitasse platea dictumst.',
+      'There is a possibility to register online. In this case please provide the full details on the online registration and your contact number in international format. The registration department will contact you immediately to assist you on how to proceed with the registration fees payment.',
   },
   {
-    title: 'Item 2',
+    title: 'Do you offer a Center Stage only ticket?',
     content:
-      'Integer a odio eget enim imperdiet rutrum. Sed velit purus, vulputate et tempus sed, posuere a diam. Sed ac ligula consectetur augue euismod laoreet eu et mauris.',
+      'We do not offer a Center Stage only ticket. We have found that attending all days of the event offers the best conference experience and provides the best value for our attendees.',
   },
   {
-    title: 'Item 3',
-    content:
-      'Proin sed nisi auctor, dictum tellus ut, rhoncus eros. Fusce venenatis, dolor eu viverra auctor, mi magna volutpat eros, pulvinar tincidunt arcu ante imperdiet urna. Proin ac nunc maximus, commodo ipsum sit amet, pellentesque lacus. Ut aliquet nunc at urna scelerisque aliquam. Mauris pellentesque orci vel faucibus lobortis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    title: 'Do you offer any Discounts?',
+    content: 'No discounts apply to early-bird registration pricing.',
   },
   {
-    title: 'Item 4',
-    content:
-      'Sed ultricies vel sapien nec efficitur. Donec vehicula purus ac orci elementum, eu eleifend quam porta. Maecenas at convallis lorem. Ut et ligula at massa porta euismod sit amet sit amet erat.',
+    title: 'What is the registration cost?',
+    content: 'All conference registration costs will be listed on the registration page of the Conference website.',
   },
   {
-    title: 'Item 5',
+    title: 'My credit card won’t process.',
     content:
-      'Vestibulum metus velit, dapibus posuere malesuada in, aliquet eu libero. Phasellus sed nisl volutpat diam eleifend luctus. Phasellus id lectus tempor metus facilisis bibendum ac fermentum felis. Sed quis sapien faucibus eros tempus porttitor. Proin tempus felis aliquam convallis ultricies. Aliquam id ipsum urna. Praesent vitae pulvinar dolor. Curabitur bibendum arcu enim, id lacinia augue viverra in. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus venenatis dolor nec nisl facilisis, a porta metus interdum.',
+      'Credit card processing problems are generally caused by a mismatch in the billing address of the credit card holder. Check that the address entered matches the billing address listed with your credit card provider or contact your credit card provider to authorize the charge.',
   },
   {
-    title: 'Item 6',
-    content:
-      'Maecenas gravida ante at venenatis varius. Pellentesque elementum enim sit amet sapien facilisis rutrum. Donec dictum, purus quis pulvinar interdum, nulla dolor lobortis velit, eget laoreet mauris quam non libero. Curabitur vulputate est purus, volutpat aliquam massa suscipit ac. Nulla auctor mauris malesuada posuere sagittis. Nulla in augue turpis. Phasellus aliquet vitae mauris sit amet consequat. Fusce eu consequat nisl, vel tincidunt magna. Curabitur eu porta ante. Pellentesque non libero libero. Nulla facilisi. Nullam eu ipsum maximus, luctus dui at, vehicula velit.',
+    title: 'Can i download presentation after event?',
+    content: 'Yes, you can.',
   },
 ];
 
 const AccordionItems = ({ accordionContent, refs, currentAccordion, setCurrentAccordion, setBodyHeight, bodyHeight }) =>
   accordionContent.map(({ title, content }, i) => (
-    <AccordionItem key={`accordion-item-${i}`}>
-      <AccordionTitle
-        onClick={() => {
-          setCurrentAccordion(i);
-          setBodyHeight(refs[i].current.clientHeight);
-          console.log(refs[i].current.clientHeight);
-        }}
-      >
-        {title}
-      </AccordionTitle>
+    <AccordionItem
+      onClick={() => {
+        setCurrentAccordion(i);
+        setBodyHeight(refs[i].current.clientHeight);
+        console.log(refs[i].current.clientHeight);
+      }}
+      key={`accordion-item-${i}`}
+    >
+      <AccordionTitle>{title}</AccordionTitle>
       <AccordionBody active={currentAccordion === i} bodyHeight={bodyHeight}>
         <AccordionContent ref={refs[i]}>{content}</AccordionContent>
       </AccordionBody>
@@ -147,16 +155,20 @@ function Faq() {
     <Container>
       <Section>
         <Title>FAQ</Title>
-        <AccordionContainer>
-          <AccordionItems
-            accordionContent={sampleAccordionData}
-            refs={refs}
-            currentAccordion={currentAccordion}
-            setCurrentAccordion={setCurrentAccordion}
-            setBodyHeight={setBodyHeight}
-            bodyHeight={bodyHeight}
-          />
-        </AccordionContainer>
+        <InnerSection>
+          <AccordionContainer>
+            <AccordionInner>
+              <AccordionItems
+                accordionContent={sampleAccordionData}
+                refs={refs}
+                currentAccordion={currentAccordion}
+                setCurrentAccordion={setCurrentAccordion}
+                setBodyHeight={setBodyHeight}
+                bodyHeight={bodyHeight}
+              />
+            </AccordionInner>
+          </AccordionContainer>
+        </InnerSection>
       </Section>
     </Container>
   );

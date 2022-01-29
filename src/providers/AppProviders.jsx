@@ -16,7 +16,7 @@ const AppProviders = ({ children }) => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(waiting);
-    }, 750);
+    }, 500);
   }, []);
 
   return (

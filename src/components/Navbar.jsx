@@ -13,6 +13,12 @@ export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [admin, setAdmin] = useState(false);
 
+  useEffect(async () => {
+    if (user) {
+      setAdmin(await isAdmin());
+    }
+  }, []);
+
   return (
     <Nav>
       <Logo href="/">
@@ -35,11 +41,11 @@ export const Navbar = () => {
             </Dropbtn>
             <DropDownContent>
               <SubA href="/add-conference">Add Conference</SubA>
-              <SubA href="/conferences-list">Conference List</SubA>
+              <SubA href="/conferences">Conference List</SubA>
             </DropDownContent>
           </DropDownLi>
         )}
-        {user && admin && <MenuLink href="/users-list">Users List</MenuLink>}
+        {admin && <MenuLink href="/users-list">Users List</MenuLink>}
         {user && (
           <MenuLink onClick={logout} to="/signin">
             Logout
@@ -53,7 +59,7 @@ export const Navbar = () => {
 const StyledIcon = styled(Icon)`
   width: 10px;
   height: 10px;
-  fill: #f13030;
+  fill: white;
 `;
 
 const StyledLi = styled.li`
@@ -62,7 +68,7 @@ const StyledLi = styled.li`
 
 const Dropbtn = styled.div`
   display: inline-block;
-  color: #f13030;
+  color: white;
   text-align: center;
   padding: 14px 16px;
   font-size: 14px;
@@ -70,7 +76,7 @@ const Dropbtn = styled.div`
   text-decoration: none;
   cursor: context-menu;
   &:hover {
-    background-color: #f13030;
+    background-color: #1f57c1;
     color: white;
     transition: all 0.3s ease-in;
   }
@@ -79,7 +85,7 @@ const Dropbtn = styled.div`
 const DropDownContent = styled.div`
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: black;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
@@ -94,13 +100,13 @@ const DropDownLi = styled(StyledLi)`
 `;
 
 const SubA = styled.a`
-  color: #f13030;
+  color: white;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
   text-align: left;
   &:hover {
-    color: #d142f5;
+    color: #1f57c1;
     transition: all 0.3s ease-in;
   }
 `;

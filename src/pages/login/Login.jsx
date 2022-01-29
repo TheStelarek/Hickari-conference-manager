@@ -121,6 +121,10 @@ export default function Signin() {
 
   const history = useHistory();
 
+  const refresh = async (time) => {
+    window.location.reload(time);
+  };
+
   useEffect(() => {
     if (loading) {
       // maybe trigger a loading screen
@@ -136,7 +140,12 @@ export default function Signin() {
         <FirstInput type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your e-mail" />
         <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" />
         <ButtonContainer>
-          <Button className="login__btn" onClick={() => signInWithEmailAndPassword(email, password)}>
+          <Button
+            className="login__btn"
+            onClick={() => {
+              signInWithEmailAndPassword(email, password);
+            }}
+          >
             Login
           </Button>
         </ButtonContainer>

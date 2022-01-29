@@ -8,22 +8,32 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background: linear-gradient(135deg, LightSeaGreen, DarkOrchid, LightSeaGreen);
+  background-color: black;
+`;
+
+const Title = styled.h1`
+  color: white;
+  padding-top: 25px;
+  @media (min-width: 1000px) {
+    padding-top: 40px;
+  }
 `;
 
 const Box = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30%;
-  height: 39%;
+  width: 300px;
+  height: 300px;
   gap: 15px;
-  border: 1px lightgray solid;
-  background-color: lightgray;
+  border: 1px #1f57c1 solid;
+  background-color: black;
   border-radius: 12px;
   flex-direction: column;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  @media (min-width: 1000px) {
+    width: 400px;
+    height: 400px;
+  }
 `;
 
 const Guzik = styled.a`
@@ -48,7 +58,7 @@ const Guzik = styled.a`
     border-radius: 100px;
     width: 200px;
     height: 50px;
-    background: black;
+    background-color: #1f57c1;
     transition: all 0.6s ease-in-out;
   }
   &:hover:before {
@@ -65,6 +75,7 @@ const Guzik = styled.a`
     justify-content: center;
     width: 200px;
     height: 50px;
+
     text-align: center;
     overflow: hidden;
     border-radius: 100px;
@@ -98,7 +109,7 @@ const Guzik = styled.a`
 const NotFound = () => (
   <Container>
     <Box>
-      <h1>404 - Not Found!</h1>
+      <Title>404 - Not Found!</Title>
       <Guzik href="/" />
     </Box>
   </Container>

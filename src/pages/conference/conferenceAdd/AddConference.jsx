@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { addConference } from '../../../api/firebase-conference';
-import { auth } from '../../../api/firebase-user';
+import { useHistory } from 'react-router-dom';
+import { addConference } from 'api/firebase-conference';
+import { auth } from 'api/firebase-user';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import styled, { keyframes } from 'styled-components';
-import { usersList } from '../../../api/firebase-user';
+import { usersList } from 'api/firebase-user';
 
 function AddConference() {
   const [title, setTitle] = useState('');
@@ -12,7 +13,7 @@ function AddConference() {
   const [end, setEnd] = useState('');
   const [description, setDescription] = useState('');
   const [maxCount, setMaxCount] = useState('');
-  const [setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
 
   //-------------------------------------------------------------------------------
   const [committee, setCommittee] = useState([]);
@@ -25,7 +26,7 @@ function AddConference() {
   };
 
   const handleCommitteeRemove = (ind) => {
-    const a = committee.filter((i) => i.name !== ind);
+    const a = committee.filter((i) => i.name != ind);
     setCommittee(a);
   };
   //-------------------------------------------------------------------------------
@@ -39,12 +40,13 @@ function AddConference() {
   };
 
   const handleReviewerRemove = (ind) => {
-    const a = reviewer.filter((i) => i.name !== ind);
+    const a = reviewer.filter((i) => i.name != ind);
     setReviewer(a);
   };
   //-------------------------------------------------------------------------------
 
-  const [user, loading] = useAuthState(auth);
+  const [user, loading, error] = useAuthState(auth);
+  const history = useHistory();
 
   //-------------------------------------------------------------------------------
   //GET USERS----------------------------------------------------------------------
@@ -56,76 +58,49 @@ function AddConference() {
   return (
     <Container className="login">
       <Box>
-        <h1>Add conference</h1>
-        <PierwszePole type="text" className="login__textBox" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" required />
+        <Title>Add conference</Title>
+        <FirstInput type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" required />
 
-        <Input type="date" className="login__textBox" value={date} onChange={(e) => setDate(e.target.value)} placeholder="Date" required />
+        <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} placeholder="Date" required />
 
-        <Input
-          type="time"
-          className="login__textBox"
-          value={start}
-          onChange={(e) => setStart(e.target.value)}
-          placeholder="Conference start at"
-          required
-        />
+        <Input type="time" value={start} onChange={(e) => setStart(e.target.value)} placeholder="Conference start at" required />
 
-        <Input type="time" className="login__textBox" value={end} onChange={(e) => setEnd(e.target.value)} placeholder="Conference end at" required />
+        <Input type="time" value={end} onChange={(e) => setEnd(e.target.value)} placeholder="Conference end at" required />
 
-        <Input
-          type="number"
-          className="login__textBox"
-          value={maxCount}
-          onChange={(e) => setMaxCount(e.target.value)}
-          placeholder="max guests"
-          required
-        />
+        <Input type="number" value={maxCount} onChange={(e) => setMaxCount(e.target.value)} placeholder="max guests" required />
 
-        <Input
-          type="textarea"
-          className="login__textBox"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="description"
-          required
-        />
+        <Input type="textarea" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="description" required />
 
-        {/* ------------------------------------------------------------------------------------------ */}
         <Wrapper>
-          {/* ------------------------------------------------------------------------------------------ */}
-          {/* ------------------------------------------------------------------------------------------ */}
           {!!committee.length && (
-            <div>
+            <ButtonContainer>
               {committee.map((person, index) => {
                 return (
                   <Buttons key={person.id}>
-                    <Inpt onChange={(e) => handleCommitteeChange(e, index)} placeholder="Add committee" />
-                    <Guzik onClick={() => handleCommitteeRemove(person.name)}>Remove</Guzik>
+                    <TextInput onChange={(e) => handleCommitteeChange(e, index)} placeholder="Add committee" />
+                    <RemoveButton onClick={() => handleCommitteeRemove(person.name)}>Remove</RemoveButton>
                   </Buttons>
                 );
               })}
-            </div>
+            </ButtonContainer>
           )}
-          <Guzik onClick={() => addCommittee()}>Add Committee</Guzik>
-          {/* ------------------------------------------------------------------------------------------ */}
-          {/* ------------------------------------------------------------------------------------------ */}
+          <Button onClick={() => addCommittee()}>Add Committee</Button>
           {!!reviewer.length && (
-            <div>
+            <ButtonContainer>
               {reviewer.map((person, index) => {
                 return (
                   <Buttons key={person.id}>
-                    <Inpt onChange={(e) => handleReviewerChange(e, index)} placeholder="Add reviewer" />
-                    <Guzik onClick={() => handleReviewerRemove(person.name)}>Remove</Guzik>
+                    <TextInput onChange={(e) => handleReviewerChange(e, index)} placeholder="Add reviewer" />
+                    <RemoveButton onClick={() => handleReviewerRemove(person.name)}>Remove</RemoveButton>
                   </Buttons>
                 );
               })}
-            </div>
+            </ButtonContainer>
           )}
-          <Guzik onClick={() => addReviewer()}>Add Reviewer</Guzik>
-          {/* ------------------------------------------------------------------------------------------ */}
-          <Guzik className="login__btn" onClick={() => addConference(title, date, start, end, description, maxCount, committee, reviewer)}>
+          <Button onClick={() => addReviewer()}>Add Reviewer</Button>
+          <Button className="login__btn" onClick={() => addConference(title, date, start, end, description, maxCount, committee, reviewer)}>
             Create conference
-          </Guzik>
+          </Button>
         </Wrapper>
       </Box>
     </Container>
@@ -135,44 +110,52 @@ function AddConference() {
 export default AddConference;
 
 const Container = styled.div`
-  min-height: 95vh;
-  height: 100%;
-  overflow: auto;
+  display: flex;
+
   width: 100vw;
-  background: linear-gradient(135deg, LightSeaGreen, DarkOrchid, LightSeaGreen);
 `;
 
 const Buttons = styled.div`
   display: flex;
-  width: 100%;
-  height: 100%;
-  align-items: center;
   margin-top: 20px;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
   justify-content: center;
+`;
+
+const ButtonContainer = styled.div`
+  width: 100%;
 `;
 
 const Box = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30%;
+  width: 300px;
   margin: auto;
   margin-top: 60px;
   margin-bottom: 60px;
   gap: 15px;
   border: 1px lightgray solid;
-  background-color: lightgray;
+  background-color: black;
   border-radius: 12px;
   flex-direction: column;
+`;
 
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+const Title = styled.h1`
+  color: white;
+  padding-top: 25px;
+  @media (min-width: 1000px) {
+    padding-top: 40px;
+  }
 `;
 
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  width: 80%;
   justify-content: center;
   align-items: center;
   padding-left: 5px;
@@ -180,80 +163,92 @@ const Wrapper = styled.div`
   padding-top: 20px;
   gap: 30px;
   margin-bottom: 30px;
+  max-width: 100%;
 `;
 
-const gradient = keyframes`
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 600% 50%;
-  }
-`;
-
-const Guzik = styled.a`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const Button = styled.a`
+  background-color: #1f57c1;
+  color: white !important;
+  transition: all 0.4s ease-in-out;
   justify-content: center;
+  display: flex;
   cursor: pointer;
-  width: 200px;
-  height: 50px;
-  font-weight: 200;
-  font-size: 14pt;
-  background: linear-gradient(to right, Tomato, DarkOrange, Crimson, Tomato);
-  background-size: 600% 600%;
-  border: 1px solid transparent;
-  animation: ${gradient} 30s linear infinite;
-  color: white;
-  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
-    rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
-    rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  width: 100%;
+  align-items: center;
+  height: 30px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  margin-top: 5px;
   &:hover {
-    background: linear-gradient(to right, CornflowerBlue, Aqua, DeepPink, CornflowerBlue);
-    background-size: 600% 600%;
-    animation: ${gradient} 20s linear infinite;
-    filter: drop-shadow(0px 0px 30px CornflowerBlue);
-    font-weight: 400;
-    text-shadow: 0px 0px 3px CornflowerBlue;
+    background: #fff;
+    color: #1f57c1 !important;
   }
 `;
 
-const PierwszePole = styled.input`
-  background: transparent;
-  position: relative;
-  border: none;
-  border-bottom: solid 1px gray;
-  height: 30px;
+const FirstInput = styled.input`
+  -webkit-appearance: none;
+  margin-top: 30px;
+  box-sizing: border-box;
+  padding-left: 10px;
+  font-size: 14px;
+  border: 1px solid #1f57c1;
+  color: white;
+  background: none;
+  height: 50px;
   width: 80%;
-  z-index: 200;
-  padding: 10px;
-  font-size: 20px;
-  font-weight: lighter;
+  margin: 0;
+  transition: 0.3s;
+  box-shadow: inset 0 0 0 none;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  ::placeholder {
+    color: #bebebe;
+  }
 `;
-
 const Input = styled.input`
-  background: transparent;
-  position: relative;
-  border: none;
-  border-bottom: solid 1px gray;
-  height: 30px;
+  -webkit-appearance: none;
+  margin-top: 30px;
+  box-sizing: border-box;
+  padding-left: 10px;
+  font-size: 14px;
+  border: 1px solid #1f57c1;
+  color: white;
+  background: none;
+  height: 50px;
   width: 80%;
-  z-index: 200;
-  padding: 10px;
-  font-size: 20px;
-  font-weight: lighter;
+  margin: 0;
+  transition: 0.3s;
+  box-shadow: inset 0 0 0 none;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  ::placeholder {
+    color: #bebebe;
+  }
 `;
 
-const Inpt = styled.input`
-  background: transparent;
-  position: relative;
-  border: none;
-  border-bottom: solid 1px gray;
-  height: 30px;
-  width: 69%;
-  z-index: 200;
-  padding: 10px;
-  font-size: 20px;
-  font-weight: lighter;
+const RemoveButton = styled.a`
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  padding-top: 5px;
+`;
+
+const TextInput = styled.input`
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  padding-left: 10px;
+  font-size: 14px;
+  border: 1px solid #1f57c1;
+  color: white;
+  background: none;
+  height: 50px;
+  width: 100%;
+  margin: 0;
+  transition: 0.3s;
+  box-shadow: inset 0 0 0 none;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  ::placeholder {
+    color: #bebebe;
+  }
 `;

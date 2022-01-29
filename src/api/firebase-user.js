@@ -2,11 +2,13 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { auth, db } from './firebase-config';
-import { isAdminOrOwner } from './permission';
 
 const signInWithEmailAndPassword = async (email, password) => {
   try {
-    await auth.signInWithEmailAndPassword(email, password);
+    await auth.signInWithEmailAndPassword(email, password).then(() => {
+      window.location.reload();
+      window.location = '/';
+    });
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -42,6 +44,7 @@ const sendPasswordResetEmail = async (email) => {
   try {
     await auth.sendPasswordResetEmail(email).then(() => {
       alert('Password reset link sent!');
+      window.location.reload();
     });
   } catch (err) {
     console.error(err);
@@ -50,7 +53,9 @@ const sendPasswordResetEmail = async (email) => {
 };
 
 const logout = () => {
-  auth.signOut();
+  auth.signOut().then(() => {
+    window.location = '/';
+  });
 };
 
 const usersList = async () => {

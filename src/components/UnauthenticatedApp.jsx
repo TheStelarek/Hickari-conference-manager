@@ -23,7 +23,6 @@ const UnauthenticatedApp = () => {
         <Route path="/Faq">
           <Faq />
         </Route>
-
         <Route path="/login">
           <Login />
         </Route>
