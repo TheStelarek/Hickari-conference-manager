@@ -1,23 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { logout } from '../api/firebase-user.js';
-
 import { auth } from '../api/firebase-user';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { ReactComponent as Icon } from '../assets/down.svg';
 
-import { isAdmin } from 'api/permission';
-
 export const Navbar = () => {
   const [user] = useAuthState(auth);
   const [isOpen, setIsOpen] = useState(false);
-  const [admin, setAdmin] = useState(false);
-
-  useEffect(async () => {
-    if (user) {
-      setAdmin(await isAdmin());
-    }
-  }, []);
 
   return (
     <Nav>
@@ -30,10 +20,6 @@ export const Navbar = () => {
         <span />
       </Hamburger>
       <Menu isOpen={isOpen}>
-        {user && <MenuLink href="/profile">Profile</MenuLink>}
-        {!user && <MenuLink href="/register">Register</MenuLink>}
-        {!user && <MenuLink href="/login">Login</MenuLink>}
-        <MenuLink href="/Faq">Faq</MenuLink>
         {user && (
           <DropDownLi>
             <Dropbtn>
@@ -45,7 +31,11 @@ export const Navbar = () => {
             </DropDownContent>
           </DropDownLi>
         )}
-        {admin && <MenuLink href="/users-list">Users List</MenuLink>}
+        {user && <MenuLink href="/profile">Profile</MenuLink>}
+        {!user && <MenuLink href="/register">Register</MenuLink>}
+        {!user && <MenuLink href="/login">Login</MenuLink>}
+        <MenuLink href="/Faq">Faq</MenuLink>
+
         {user && (
           <MenuLink onClick={logout} to="/signin">
             Logout

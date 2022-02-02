@@ -121,10 +121,6 @@ export default function Signin() {
 
   const history = useHistory();
 
-  const refresh = async (time) => {
-    window.location.reload(time);
-  };
-
   useEffect(() => {
     if (loading) {
       // maybe trigger a loading screen

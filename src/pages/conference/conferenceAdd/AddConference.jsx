@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
 import { addConference } from 'api/firebase-conference';
-import { auth } from 'api/firebase-user';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import styled, { keyframes } from 'styled-components';
-import { usersList } from 'api/firebase-user';
+import styled from 'styled-components';
 
 function AddConference() {
   const [title, setTitle] = useState('');
@@ -13,7 +9,6 @@ function AddConference() {
   const [end, setEnd] = useState('');
   const [description, setDescription] = useState('');
   const [maxCount, setMaxCount] = useState('');
-  const [users, setUsers] = useState([]);
 
   //-------------------------------------------------------------------------------
   const [committee, setCommittee] = useState([]);
@@ -26,7 +21,7 @@ function AddConference() {
   };
 
   const handleCommitteeRemove = (ind) => {
-    const a = committee.filter((i) => i.name != ind);
+    const a = committee.filter((i) => i.name !== ind);
     setCommittee(a);
   };
   //-------------------------------------------------------------------------------
@@ -40,21 +35,15 @@ function AddConference() {
   };
 
   const handleReviewerRemove = (ind) => {
-    const a = reviewer.filter((i) => i.name != ind);
+    const a = reviewer.filter((i) => i.name !== ind);
     setReviewer(a);
   };
   //-------------------------------------------------------------------------------
-
-  const [user, loading, error] = useAuthState(auth);
-  const history = useHistory();
 
   //-------------------------------------------------------------------------------
   //GET USERS----------------------------------------------------------------------
   //-------------------------------------------------------------------------------
 
-  useEffect(async () => {
-    setUsers(await usersList());
-  }, [user, loading]);
   return (
     <Container className="login">
       <Box>

@@ -17,8 +17,6 @@ const signInWithEmailAndPassword = async (email, password) => {
 
 const registerWithEmailAndPassword = async (username, email, password, number, adresss, nrpesel) => {
   try {
-    const res = await auth.createUserWithEmailAndPassword(email, password);
-
     await db.collection('users').add({
       number,
       username,

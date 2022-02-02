@@ -38,15 +38,6 @@ const UploadFile = () => {
     getItem();
   }, []);
 
-  useEffect(() => {
-    async function refresh() {
-      if (progress === 100) {
-        window.location.reload();
-      }
-    }
-    refresh();
-  }, [progress]);
-
   const getLink = async (link) => {
     setUrl(await getDownloadURL(ref(storage, `files/${link}`)));
   };
@@ -54,102 +45,152 @@ const UploadFile = () => {
   const usun = async (link) => {
     setDelete(await deleteObject(ref(storage, `files/${link}`)));
   };
+
   return (
     <Container>
-      <Box>
-        <UploadContainer>
-          <Form onSubmit={formHandler}>
-            <Input type="file" />
-            <Guzik type="submit">Upload</Guzik>
-          </Form>
-        </UploadContainer>
-        <h2>Uploading done {progress}%</h2>
-        {obj && obj.items && obj.items.length > 0 && (
-          <ul>
-            {obj.items.map((d) => {
-              return (
-                <MapContainer>
-                  <p>{d.name}</p>
-                  <div>
-                    <Guzik onClick={() => getLink(d.name)}>Pokaż link</Guzik>
-                    <Guzik onClick={() => usun(d.name) && window.location.reload()}>Usuń plik</Guzik>
-                  </div>
-                </MapContainer>
-              );
-            })}
-          </ul>
-        )}
-        <p>LINK</p>
-        {url && <a href={url}>Click me</a>}
-      </Box>
+      <Title>Upload your documents</Title>
+      <UploadContainer>
+        <Form onSubmit={formHandler}>
+          <Input type="file" name="file" id="file" />
+          <Label for="file">Choose a file (Click me)</Label>
+          <Button type="submit">Upload</Button>
+        </Form>
+      </UploadContainer>
+      <Progress>Uploading done {progress}%</Progress>
+      {obj && obj.items && obj.items.length > 0 && (
+        <Ul>
+          {obj.items.map((d) => {
+            return (
+              <MapContainer>
+                <Text>{d.name}</Text>
+                <Buttons>
+                  <Button onClick={() => getLink(d.name)}>Show Link</Button>
+                  <Button onClick={() => usun(d.name) && window.location.reload()}>Delete</Button>
+                </Buttons>
+              </MapContainer>
+            );
+          })}
+        </Ul>
+      )}
+      <Text>LINK</Text>
+      {url && <Click href={url}>Click me</Click>}
     </Container>
   );
 };
 
-const Guzik = styled.button`
+const Button = styled.button`
+  background-color: #737373;
+  border: none;
+  color: white !important;
+  transition: 400ms ease all;
+  justify-content: center;
+  display: flex;
   cursor: pointer;
-  display: inline-block;
-  color: #000;
-  font-size: 16px;
-  text-transform: uppercase;
-  padding: 11px 20px;
-  border: 1px black solid;
-  background-color: white;
-  margin-left: 31px;
+  width: 100%;
+  align-items: center;
+  height: 30px;
 
-  animation: black 30s linear infinite;
   &:hover {
-    animation: black 20s linear infinite;
-    background-color: black;
-    color: white;
+    background: #fff;
+    color: #1f57c1 !important;
   }
 `;
 
-const Input = styled.input`
-  background-color: lightgray;
+const Title = styled.a`
+  color: white;
+  padding-top: 25px;
+  font-size: 20px;
+  @media (min-width: 1000px) {
+    padding-top: 30px;
+    font-size: 40px;
+    font-weight: 600;
+  }
+`;
+
+const Progress = styled.a`
+  color: white;
+  padding-top: 25px;
+  font-size: 20px;
+  @media (min-width: 1000px) {
+    padding-top: 30px;
+    font-size: 40px;
+    padding-bottom: 20px;
+  }
+`;
+
+const Text = styled.p`
+  color: white;
+`;
+
+const Ul = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-right: 22px;
+`;
+
+const Click = styled.a`
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+`;
+
+const Label = styled.label`
+  background-color: #737373;
+  color: white !important;
+  transition: all 0.4s ease-in-out;
+  justify-content: center;
+  display: flex;
+  cursor: pointer;
+  width: 100%;
+  align-items: center;
+  height: 30px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  &:hover {
+    background: #fff;
+    color: #1f57c1 !important;
+  }
+`;
+
+const Input = styled.input.attrs({ type: 'file' })`
+  text-indent: -90px;
+  color: white;
 `;
 
 const Form = styled.form`
+  display: flex;
+  flex-direction: column;
   margin-top: 20px;
+  gap: 20px;
 `;
 
-const Box = styled.div`
+const Buttons = styled.div`
   display: flex;
+  gap: 15px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  padding-right: 10px;
   align-items: center;
   justify-content: center;
-  width: 30%;
-  margin: auto;
-  margin-bottom: 30px;
-  margin-top: 30px;
-  gap: 15px;
-  border: 1px lightgray solid;
-  background-color: lightgray;
-  border-radius: 12px;
-  flex-direction: column;
-
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 `;
 
 const MapContainer = styled.div`
   display: flex;
   align-items: center;
-  width: 80%;
+  width: 100%;
   justify-content: center;
   flex-direction: column;
   margin-bottom: 20px;
+  border: 1px white solid;
+  padding: 10px;
+  border-radius: 12px;
 `;
 
-const UploadContainer = styled.div`
-  position: static;
-`;
-
-const Container = styled.div`
-  min-height: 95vh;
-  height: 100%;
-  overflow: auto;
-  width: 100vw;
-  background: linear-gradient(135deg, LightSeaGreen, DarkOrchid, LightSeaGreen);
-`;
+const UploadContainer = styled.div``;
 
 export default UploadFile;
