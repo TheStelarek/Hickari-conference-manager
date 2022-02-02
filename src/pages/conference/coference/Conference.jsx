@@ -6,8 +6,8 @@ import { isAdmin, isAdminOrOwner } from 'api/permission';
 import { getConferencesList, joinCoference, leaveCoference } from 'api/firebase-conference';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
-import AdminForm from 'components/Conference/AdminForm';
-import UserForm from 'components/Conference/UserForm';
+import AdminForm from 'components/conference/AdminForm';
+import UserForm from 'components/conference/UserForm';
 import {
   Container,
   TextContainer,
@@ -27,7 +27,7 @@ import {
 } from './ConferenceStyle';
 
 function Conference(props) {
-  const [obj, setObj] = useState({});
+  const [conference, setConference] = useState({});
   const [admin, setAdmin] = useState(false);
   const [adminOrOwner, setAdminOrOwner] = useState(false);
   const [confList, setConfList] = useState([]);
@@ -40,66 +40,53 @@ function Conference(props) {
     e.preventDefault();
     const file = e.target[0].files[0];
     await uploadFile(file);
-
     const konferencja = await db
       .collection('conferences')
       .doc(id)
       .get()
       .then((d) => d.data());
-
     const uczestnikIndex = konferencja.participants.findIndex((p) => p.name === auth.currentUser.email);
     konferencja.participants[uczestnikIndex].link = url;
-
     await db.collection('conferences').doc(id).update({
       participants: konferencja.participants,
     });
   };
 
   const addCommittee = () => {
-    const updated = obj.committee;
-    updated.push({ id: obj.committee.length + 1, name: '' });
-    setObj((s) => ({ ...s, committee: updated }));
+    const updated = conference.committee;
+    updated.push({ id: conference.committee.length + 1, name: '' });
+    setConference((s) => ({ ...s, committee: updated }));
   };
 
   const handleCommitteeChange = (e, index) => {
-    const updateObject = obj;
+    const updateObject = conference;
     updateObject.committee[index].name = e.target.value;
-    setObj(updateObject);
+    setConference(updateObject);
   };
 
   const handleCommitteeRemove = (ind) => {
-    const updateObject = obj.committee.filter((i) => i.name !== ind);
-    setObj((s) => ({ ...s, committee: updateObject }));
+    const updateObject = conference.committee.filter((i) => i.name !== ind);
+    setConference((s) => ({ ...s, committee: updateObject }));
   };
 
   const addReviewer = () => {
-    const updateObject = obj.reviewer;
-    updateObject.push({ id: obj.reviewer.length + 1, name: '' });
-    setObj((s) => ({ ...s, reviewer: updateObject }));
+    const updateObject = conference.reviewer;
+    updateObject.push({ id: conference.reviewer.length + 1, name: '' });
+    setConference((s) => ({ ...s, reviewer: updateObject }));
   };
 
   const handleReviewerChange = (e, index) => {
-    const updateObject = obj;
+    const updateObject = conference;
     updateObject.reviewer[index].name = e.target.value;
-    setObj(updateObject);
+    setConference(updateObject);
   };
 
   const handleReviewerRemove = (ind) => {
-    const updateObject = obj.reviewer.filter((i) => i.name !== ind);
-    setObj((s) => ({ ...s, reviewer: updateObject }));
+    const updateObject = conference.reviewer.filter((i) => i.name !== ind);
+    setConference((s) => ({ ...s, reviewer: updateObject }));
   };
 
-  useEffect(() => {
-    const getConf = async () => {
-      const ConfId = props.match.params.id;
-
-      setObj(await getConferenceDetails(ConfId));
-      setAdmin(await isAdmin());
-      setAdminOrOwner(await isAdminOrOwner(ConfId));
-    };
-    getConf();
-  }, [props.match.params.id]);
-  const update = (e) => setObj((p) => ({ ...p, [e.target.name]: e.target.value }));
+  const update = (e) => setConference((p) => ({ ...p, [e.target.name]: e.target.value }));
 
   const exitConference = async (id) => {
     await leaveCoference(id);
@@ -113,19 +100,10 @@ function Conference(props) {
     setConfList(conferences);
   };
 
-  useEffect(() => {
-    const getConference = async () => {
-      const conferences = await getConferencesList();
-      setConfList(conferences);
-    };
-    getConference();
-  }, []);
-
   const uploadFile = (file) => {
     if (!file) return;
     const sotrageRef = ref(storage, `presentation/${file.name}`);
     const uploadTask = uploadBytesResumable(sotrageRef, file);
-
     uploadTask.on(
       'state_changed',
       (snapshot) => {
@@ -141,6 +119,14 @@ function Conference(props) {
   };
 
   useEffect(() => {
+    const getConference = async () => {
+      const conferences = await getConferencesList();
+      setConfList(conferences);
+    };
+    getConference();
+  }, []);
+
+  useEffect(() => {
     async function refresh() {
       if (progress === 100) {
         setUpload('Confirm');
@@ -149,30 +135,39 @@ function Conference(props) {
     refresh();
   }, [progress]);
 
+  useEffect(() => {
+    const getConf = async () => {
+      const ConfId = props.match.params.id;
+      setConference(await getConferenceDetails(ConfId));
+      setAdmin(await isAdmin(ConfId));
+      setAdminOrOwner(await isAdminOrOwner(ConfId));
+    };
+    getConf();
+  }, [props.match.params.id]);
+
   return (
     <Container className="login">
-      {obj && (
+      {conference && (
         <Box>
           <Wrapper>
-            {adminOrOwner && (
+            {adminOrOwner ? (
               <AdminForm
                 update={update}
-                title={obj.title}
-                date={obj.date}
-                end={obj.end}
-                start={obj.start}
-                maxParticipants={obj.maxParticipants}
-                description={obj.description}
+                title={conference.title}
+                date={conference.date}
+                end={conference.end}
+                start={conference.start}
+                maxParticipants={conference.maxParticipants}
+                description={conference.description}
               />
-            )}
-            {!adminOrOwner && (
+            ) : (
               <UserForm
-                title={obj.title}
-                date={obj.date}
-                end={obj.end}
-                start={obj.start}
-                maxParticipants={obj.maxParticipants}
-                description={obj.description}
+                title={conference.title}
+                date={conference.date}
+                end={conference.end}
+                start={conference.start}
+                maxParticipants={conference.maxParticipants}
+                description={conference.description}
               />
             )}
             {confList.map((details, key) => (
@@ -201,9 +196,9 @@ function Conference(props) {
             {admin && (
               <TextContainer>
                 <Title>Committee</Title>
-                {obj.committee && !!obj.committee.length && (
+                {conference.committee && !!conference.committee.length && (
                   <TextWrapper>
-                    {obj.committee.map((person, index) => {
+                    {conference.committee.map((person, index) => {
                       return (
                         <TextWrapper key={person.id}>
                           <InputText defaultValue={person.name} onChange={(e) => handleCommitteeChange(e, index)} />
@@ -219,9 +214,9 @@ function Conference(props) {
             {admin && (
               <TextContainer>
                 <Title>Reviewer</Title>
-                {obj.reviewer && !!obj.reviewer.length && (
+                {conference.reviewer && !!conference.reviewer.length && (
                   <TextWrapper>
-                    {obj.reviewer.map((person, index) => {
+                    {conference.reviewer.map((person, index) => {
                       return (
                         <TextWrapper key={person.id}>
                           <InputText defaultValue={person.name} onChange={(e) => handleReviewerChange(e, index)} />
@@ -237,18 +232,17 @@ function Conference(props) {
             {adminOrOwner && (
               <TextWrapper>
                 <Button
-                  className="login__btn"
                   onClick={() =>
                     updateConference(
-                      obj.title,
-                      obj.date,
-                      obj.start,
-                      obj.end,
-                      obj.maxParticipants,
-                      obj.description,
-                      obj.participants,
-                      obj.committee,
-                      obj.reviewer,
+                      conference.title,
+                      conference.date,
+                      conference.start,
+                      conference.end,
+                      conference.maxParticipants,
+                      conference.description,
+                      conference.participants,
+                      conference.committee,
+                      conference.reviewer,
                       props.match.params.id
                     )
                   }
@@ -264,5 +258,4 @@ function Conference(props) {
     </Container>
   );
 }
-
 export default Conference;

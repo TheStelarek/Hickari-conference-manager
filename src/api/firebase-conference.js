@@ -58,7 +58,6 @@ const updateConference = async (title, date, start, end, maxParticipants, descri
       reviewer,
     });
   } catch (err) {
-    console.error(err);
     alert(err.message);
   }
 };
@@ -68,11 +67,8 @@ const deleteConference = async (id) => {
     try {
       await db.collection('conferences').doc(id).delete();
     } catch (err) {
-      console.error(err);
       alert(err.message);
     }
-  } else {
-    alert('chuj kurwa');
   }
 };
 
@@ -98,14 +94,13 @@ const joinCoference = async (id) => {
       await db.collection('conferences').doc(id).update({
         participants: obj.participants,
       });
-      alert('zapisano');
+      alert('Save!');
     } else if (!obj.participants.filter((d) => d.name === user).length && obj.participants.length >= obj.maxParticipants) {
-      alert('brak miejsc');
+      alert('Conference is full!');
     } else {
-      alert('już jestes zapisany');
+      alert('You already enter conference.');
     }
   } catch (err) {
-    console.error(err);
     alert(err.message);
   }
 };
@@ -125,12 +120,11 @@ const leaveCoference = async (id) => {
       await db.collection('conferences').doc(id).update({
         participants: newParticipants,
       });
-      alert('wypisaleś się');
+      alert('You left conference.');
     } else {
-      alert('nie ma cie na liscie');
+      alert('You are not on the list.');
     }
   } catch (err) {
-    console.error(err);
     alert(err.message);
   }
 };

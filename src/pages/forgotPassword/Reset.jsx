@@ -33,7 +33,7 @@ const Button = styled.a`
   }
 `;
 
-const FirstInput = styled.input`
+const InputText = styled.input`
   -webkit-appearance: none;
   margin-top: 30px;
   box-sizing: border-box;
@@ -81,11 +81,9 @@ const Reset = () => {
     <Container>
       <Box>
         <Title> Reset Password </Title>
-        <FirstInput type="text" className="login__textBox" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your e-mail" />
+        <InputText type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your e-mail" />
         <ButtonContainer>
-          <Button className="login__btn" onClick={() => sendPasswordResetEmail(email)}>
-            Reset
-          </Button>
+          <Button onClick={() => sendPasswordResetEmail(email)}>Reset</Button>
         </ButtonContainer>
       </Box>
     </Container>

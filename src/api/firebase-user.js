@@ -10,7 +10,6 @@ const signInWithEmailAndPassword = async (email, password) => {
       window.location = '/';
     });
   } catch (err) {
-    console.error(err);
     alert(err.message);
   }
 };
@@ -33,7 +32,6 @@ const registerWithEmailAndPassword = async (username, email, password, number, a
       phoneNumber: number,
     });
   } catch (err) {
-    console.error(err);
     alert(err.message);
   }
 };
@@ -45,7 +43,6 @@ const sendPasswordResetEmail = async (email) => {
       window.location.reload();
     });
   } catch (err) {
-    console.error(err);
     alert(err.message);
   }
 };
@@ -87,7 +84,6 @@ const updateUser = async (adress, pesel, phoneNumber, username, id) => {
       id,
     });
   } catch (err) {
-    console.error(err);
     alert(err.message);
   }
 };
@@ -96,7 +92,6 @@ const deleteUser = async (id) => {
   try {
     await db.collection('users').doc(id).delete();
   } catch (err) {
-    console.error(err);
     alert(err.message);
   }
 };

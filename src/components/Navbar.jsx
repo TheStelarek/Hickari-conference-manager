@@ -62,7 +62,6 @@ const Dropbtn = styled.div`
   text-align: center;
   padding: 14px 16px;
   font-size: 14px;
-
   text-decoration: none;
   cursor: context-menu;
   &:hover {

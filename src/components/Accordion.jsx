@@ -23,10 +23,10 @@ const Accordion = ({ questionsAnswers }) => {
   });
 
   return (
-    <div className="faq">
-      <h1 className="faq__title">FAQ</h1>
-      <dl className="faq__list">{renderedQuestionsAnswers}</dl>
-    </div>
+    <>
+      <h1>FAQ</h1>
+      <dl>{renderedQuestionsAnswers}</dl>
+    </>
   );
 };
 

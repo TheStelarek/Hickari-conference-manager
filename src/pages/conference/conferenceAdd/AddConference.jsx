@@ -9,8 +9,6 @@ function AddConference() {
   const [end, setEnd] = useState('');
   const [description, setDescription] = useState('');
   const [maxCount, setMaxCount] = useState('');
-
-  //-------------------------------------------------------------------------------
   const [committee, setCommittee] = useState([]);
 
   const addCommittee = () => setCommittee([...committee, { id: committee.length + 1, name: '' }]);
@@ -24,7 +22,6 @@ function AddConference() {
     const a = committee.filter((i) => i.name !== ind);
     setCommittee(a);
   };
-  //-------------------------------------------------------------------------------
   const [reviewer, setReviewer] = useState([]);
 
   const addReviewer = () => setReviewer([...reviewer, { id: reviewer.length + 1, name: '' }]);
@@ -38,28 +35,17 @@ function AddConference() {
     const a = reviewer.filter((i) => i.name !== ind);
     setReviewer(a);
   };
-  //-------------------------------------------------------------------------------
-
-  //-------------------------------------------------------------------------------
-  //GET USERS----------------------------------------------------------------------
-  //-------------------------------------------------------------------------------
 
   return (
     <Container className="login">
       <Box>
         <Title>Add conference</Title>
-        <FirstInput type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" required />
-
+        <InputText type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" required />
         <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} placeholder="Date" required />
-
         <Input type="time" value={start} onChange={(e) => setStart(e.target.value)} placeholder="Conference start at" required />
-
         <Input type="time" value={end} onChange={(e) => setEnd(e.target.value)} placeholder="Conference end at" required />
-
         <Input type="number" value={maxCount} onChange={(e) => setMaxCount(e.target.value)} placeholder="max guests" required />
-
         <Input type="textarea" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="description" required />
-
         <Wrapper>
           {!!committee.length && (
             <ButtonContainer>
@@ -174,7 +160,7 @@ const Button = styled.a`
   }
 `;
 
-const FirstInput = styled.input`
+const InputText = styled.input`
   -webkit-appearance: none;
   margin-top: 30px;
   box-sizing: border-box;

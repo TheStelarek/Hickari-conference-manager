@@ -46,7 +46,7 @@ const Button = styled.a`
     color: #1f57c1 !important;
   }
 `;
-const FirstInput = styled.input`
+const InputText = styled.input`
   -webkit-appearance: none;
   margin-top: 30px;
   box-sizing: border-box;
@@ -131,36 +131,17 @@ function Signup() {
   useEffect(() => {
     if (loading) return;
     if (user) history.replace('/dashboard');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, loading]);
+  }, [user, loading, history]);
   return (
     <Container>
       <Box>
         <Title>Sing Up</Title>
-        <FirstInput type="text" value={displayName} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" />
+        <InputText type="text" value={displayName} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" />
         <Input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your e-mail" />
-        <Input
-          type="password"
-          className="register__textBox"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your password"
-        />
-        <Input
-          type="text"
-          className="register__textBox"
-          value={phoneNumber}
-          onChange={(e) => setNumber(e.target.value)}
-          placeholder="Enter your number phone"
-        />
-        <Input
-          type="text"
-          className="register__textBox"
-          value={adress}
-          onChange={(e) => setAdress(e.target.value)}
-          placeholder="Enter your address"
-        />
-        <Input type="text" className="register__textBox" value={pesel} onChange={(e) => setPesel(e.target.value)} placeholder="Enter your pesel" />
+        <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" />
+        <Input type="text" value={phoneNumber} onChange={(e) => setNumber(e.target.value)} placeholder="Enter your number phone" />
+        <Input type="text" value={adress} onChange={(e) => setAdress(e.target.value)} placeholder="Enter your address" />
+        <Input type="text" value={pesel} onChange={(e) => setPesel(e.target.value)} placeholder="Enter your pesel" />
         <ButtonContainer>
           <Button onClick={register}>Register</Button>
         </ButtonContainer>

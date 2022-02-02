@@ -9,7 +9,7 @@ const Text = styled.p`
   padding-top: 5px;
 `;
 
-const Anserw = styled.p`
+const SubText = styled.p`
   font-size: 20px;
   color: lightgray;
 `;
@@ -44,22 +44,22 @@ function UserForm(props) {
       <Title>Conference</Title>
       <TextWrapper>
         <Text>Title: </Text>
-        <Anserw>{props.title}</Anserw>
+        <SubText>{props.title}</SubText>
       </TextWrapper>
       <TextWrapper>
-        <Text>Date:</Text> <Anserw>{props.date}</Anserw>
+        <Text>Date:</Text> <SubText>{props.date}</SubText>
       </TextWrapper>
       <TextWrapper>
-        <Text>Time start:</Text> <Anserw>{props.start}</Anserw>
+        <Text>Time start:</Text> <SubText>{props.start}</SubText>
       </TextWrapper>
       <TextWrapper>
-        <Text>Time end:</Text> <Anserw>{props.end}</Anserw>
+        <Text>Time end:</Text> <SubText>{props.end}</SubText>
       </TextWrapper>
       <TextWrapper>
-        <Text>Max participants: </Text> <Anserw>{props.maxParticipants}</Anserw>
+        <Text>Max participants: </Text> <SubText>{props.maxParticipants}</SubText>
       </TextWrapper>
       <TextWrapper>
-        <Text>Description: </Text> <Anserw>{props.description}</Anserw>
+        <Text>Description: </Text> <SubText>{props.description}</SubText>
       </TextWrapper>
     </TextContainer>
   );

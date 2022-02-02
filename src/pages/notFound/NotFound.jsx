@@ -36,7 +36,7 @@ const Box = styled.div`
   }
 `;
 
-const Guzik = styled.a`
+const Button = styled.a`
   position: relative;
   width: 200px;
   height: 50px;
@@ -110,7 +110,7 @@ const NotFound = () => (
   <Container>
     <Box>
       <Title>404 - Not Found!</Title>
-      <Guzik href="/" />
+      <Button href="/" />
     </Box>
   </Container>
 );

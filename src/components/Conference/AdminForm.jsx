@@ -8,7 +8,7 @@ const Title = styled.p`
   justify-content: center;
 `;
 
-const TextWrapperAdmin = styled.div`
+const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -52,15 +52,15 @@ function AdminForm(props) {
   return (
     <TextContainer>
       <Title>Conference</Title>
-      <TextWrapperAdmin>
+      <TextWrapper>
         <Text>Date:</Text>
         <InputText type="text" className="login__textBox" name="title" value={props.title} onChange={props.update} placeholder="Title" />
-      </TextWrapperAdmin>
-      <TextWrapperAdmin>
+      </TextWrapper>
+      <TextWrapper>
         <Text>Date:</Text>
         <InputText type="date" className="login__textBox" name="date" value={props.date} onChange={props.update} placeholder="Date" />
-      </TextWrapperAdmin>
-      <TextWrapperAdmin>
+      </TextWrapper>
+      <TextWrapper>
         <Text>Start:</Text>
         <InputText
           type="time"
@@ -70,12 +70,12 @@ function AdminForm(props) {
           onChange={props.update}
           placeholder="Conference start at"
         />
-      </TextWrapperAdmin>
-      <TextWrapperAdmin>
+      </TextWrapper>
+      <TextWrapper>
         <Text>End:</Text>
         <InputText type="time" className="login__textBox" name="end" value={props.end} onChange={props.update} placeholder="Conference end at" />
-      </TextWrapperAdmin>
-      <TextWrapperAdmin>
+      </TextWrapper>
+      <TextWrapper>
         <Text>Max participiants:</Text>
         <InputText
           type="number"
@@ -85,8 +85,8 @@ function AdminForm(props) {
           onChange={props.update}
           placeholder="Conference end at"
         />
-      </TextWrapperAdmin>
-      <TextWrapperAdmin>
+      </TextWrapper>
+      <TextWrapper>
         <Text>description:</Text>
         <InputText
           type="textarea"
@@ -96,7 +96,7 @@ function AdminForm(props) {
           onChange={props.update}
           placeholder="Conference end at"
         />
-      </TextWrapperAdmin>
+      </TextWrapper>
     </TextContainer>
   );
 }

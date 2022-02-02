@@ -8,7 +8,7 @@ const UploadFile = () => {
   const [progress, setProgress] = useState(0);
   const [url, setUrl] = useState();
   const [setDelete] = useState();
-  const [obj, setObj] = useState({});
+  const [files, setFiles] = useState({});
 
   const formHandler = (e) => {
     e.preventDefault();
@@ -33,7 +33,7 @@ const UploadFile = () => {
 
   useEffect(() => {
     async function getItem() {
-      setObj(await listItem());
+      setFiles(await listItem());
     }
     getItem();
   }, []);
@@ -42,7 +42,7 @@ const UploadFile = () => {
     setUrl(await getDownloadURL(ref(storage, `files/${link}`)));
   };
 
-  const usun = async (link) => {
+  const deleteFile = async (link) => {
     setDelete(await deleteObject(ref(storage, `files/${link}`)));
   };
 
@@ -57,15 +57,15 @@ const UploadFile = () => {
         </Form>
       </UploadContainer>
       <Progress>Uploading done {progress}%</Progress>
-      {obj && obj.items && obj.items.length > 0 && (
+      {files && files.items && files.items.length > 0 && (
         <Ul>
-          {obj.items.map((d) => {
+          {files.items.map((d) => {
             return (
               <MapContainer>
                 <Text>{d.name}</Text>
                 <Buttons>
                   <Button onClick={() => getLink(d.name)}>Show Link</Button>
-                  <Button onClick={() => usun(d.name) && window.location.reload()}>Delete</Button>
+                  <Button onClick={() => deleteFile(d.name) && window.location.reload()}>Delete</Button>
                 </Buttons>
               </MapContainer>
             );

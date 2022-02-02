@@ -49,7 +49,7 @@ const Button = styled.a`
   }
 `;
 
-const FirstInput = styled.input`
+const InputText = styled.input`
   -webkit-appearance: none;
   margin-top: 30px;
   box-sizing: border-box;
@@ -123,21 +123,18 @@ export default function Signin() {
 
   useEffect(() => {
     if (loading) {
-      // maybe trigger a loading screen
       return;
     }
     if (user) history.replace('/');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, loading]);
+  }, [user, loading, history]);
   return (
     <Container>
       <Box>
         <Title>Sign in</Title>
-        <FirstInput type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your e-mail" />
+        <InputText type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your e-mail" />
         <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" />
         <ButtonContainer>
           <Button
-            className="login__btn"
             onClick={() => {
               signInWithEmailAndPassword(email, password);
             }}

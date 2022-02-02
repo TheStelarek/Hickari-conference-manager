@@ -53,7 +53,7 @@ const Wrapper = styled.div`
   margin-bottom: 40px;
 `;
 
-const TekstContainer = styled.div`
+const TextContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -61,12 +61,12 @@ const TekstContainer = styled.div`
   padding-left: 20px;
 `;
 
-const Tekst = styled.a`
+const SubText = styled.a`
   font-size: 20px;
   color: white;
   padding-left: 20px;
 `;
-const Gorny = styled.a`
+const Text = styled.a`
   font-size: 15px;
   font-weight: 600;
   text-align: justify;
@@ -97,26 +97,26 @@ const Reset = () => {
           if (record.email === user.email)
             return (
               <Wrapper>
-                <TekstContainer>
-                  <Gorny>Nazwa:</Gorny>
-                  <Tekst>{record.username}</Tekst>
-                </TekstContainer>
-                <TekstContainer>
-                  <Gorny>Email:</Gorny>
-                  <Tekst>{record.email}</Tekst>
-                </TekstContainer>
-                <TekstContainer>
-                  <Gorny>Numer telefonu:</Gorny>
-                  <Tekst>{record.number}</Tekst>
-                </TekstContainer>
-                <TekstContainer>
-                  <Gorny>Adres:</Gorny>
-                  <Tekst>{record.adresss}</Tekst>
-                </TekstContainer>
-                <TekstContainer>
-                  <Gorny>Numer pesel:</Gorny>
-                  <Tekst>{record.nrpesel}</Tekst>
-                </TekstContainer>
+                <TextContainer>
+                  <Text>Nazwa:</Text>
+                  <SubText>{record.username}</SubText>
+                </TextContainer>
+                <TextContainer>
+                  <Text>Email:</Text>
+                  <SubText>{record.email}</SubText>
+                </TextContainer>
+                <TextContainer>
+                  <Text>Numer telefonu:</Text>
+                  <SubText>{record.number}</SubText>
+                </TextContainer>
+                <TextContainer>
+                  <Text>Adres:</Text>
+                  <SubText>{record.adresss}</SubText>
+                </TextContainer>
+                <TextContainer>
+                  <Text>Numer pesel:</Text>
+                  <SubText>{record.nrpesel}</SubText>
+                </TextContainer>
               </Wrapper>
             );
 
